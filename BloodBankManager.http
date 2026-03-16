@@ -1,0 +1,165 @@
+@BloodBankManager_HostAddress = http://localhost:5000
+@ContentType = application/json
+
+### 1. GET All Blood Types
+GET {{BloodBankManager_HostAddress}}/api/bloodtypes
+Accept: {{ContentType}}
+
+### 2. POST - Create Blood Unit
+POST {{BloodBankManager_HostAddress}}/api/bloods
+Content-Type: {{ContentType}}
+
+{
+  "unitNumber": "U001",
+  "bloodTypeId": 1,
+  "collectionDate": "2026-03-12T10:00:00Z",
+  "expiryDate": "2026-04-16T10:00:00Z",
+  "volume": 450,
+  "donorName": "Nguyễn Văn A",
+  "location": "Kho A1"
+}
+
+### 3. GET All Bloods
+GET {{BloodBankManager_HostAddress}}/api/bloods
+Accept: {{ContentType}}
+
+### 4. GET Available Bloods by Type (FIFO)
+GET {{BloodBankManager_HostAddress}}/api/bloods/available/1
+Accept: {{ContentType}}
+
+### 5. GET Expiring Bloods (within 7 days)
+GET {{BloodBankManager_HostAddress}}/api/bloods/expiring/alert
+Accept: {{ContentType}}
+
+### 6. POST - Create Expiry Alerts
+POST {{BloodBankManager_HostAddress}}/api/bloods/create-expiry-alerts
+Content-Type: {{ContentType}}
+
+### 7. POST - Create Patient
+POST {{BloodBankManager_HostAddress}}/api/patients
+Content-Type: {{ContentType}}
+
+{
+  "name": "Trần Văn B",
+  "patientCode": "BN001",
+  "bloodTypeId": 1,
+  "dateOfBirth": "1990-01-01T00:00:00Z",
+  "gender": "Nam",
+  "hospital": "Bệnh viện Lồi",
+  "ward": "Phòng 101",
+  "admissionDate": "2026-03-12T00:00:00Z",
+  "phoneNumber": "0987654321",
+  "email": "patient@example.com",
+  "medicalCondition": "Chảy máu nội tạng"
+}
+
+### 8. GET All Patients
+GET {{BloodBankManager_HostAddress}}/api/patients
+Accept: {{ContentType}}
+
+### 9. GET Compatible Bloods for Patient
+GET {{BloodBankManager_HostAddress}}/api/patients/1/compatible-bloods
+Accept: {{ContentType}}
+
+### 10. POST - Transfuse Blood to Patient (with compatibility check)
+POST {{BloodBankManager_HostAddress}}/api/patients/1/transfuse
+Content-Type: {{ContentType}}
+
+{
+  "bloodId": 1,
+  "quantity": 200,
+  "performedBy": "Bác sĩ Nguyễn",
+  "notes": "Truyền thành công"
+}
+
+### 11. GET Blood Inventory (Stock)
+GET {{BloodBankManager_HostAddress}}/api/bloodinventory
+Accept: {{ContentType}}
+
+### 12. GET Low Stock Alerts
+GET {{BloodBankManager_HostAddress}}/api/bloodinventory/low-stock/alert
+Accept: {{ContentType}}
+
+### 13. PUT - Update Low Stock Threshold
+PUT {{BloodBankManager_HostAddress}}/api/bloodinventory/1/threshold
+Content-Type: {{ContentType}}
+
+{
+  "newThreshold": 1500
+}
+
+### 14. GET All Expiry Alerts
+GET {{BloodBankManager_HostAddress}}/api/bloodexpiryalerts
+Accept: {{ContentType}}
+
+### 15. GET Active Expiry Alerts
+GET {{BloodBankManager_HostAddress}}/api/bloodexpiryalerts/active
+Accept: {{ContentType}}
+
+### 16. PUT - Acknowledge Expiry Alert
+PUT {{BloodBankManager_HostAddress}}/api/bloodexpiryalerts/1/acknowledge
+Content-Type: {{ContentType}}
+
+{
+  "acknowledgedBy": "Bác sĩ Nguyễn"
+}
+
+### 17. GET Expiry Alert Statistics
+GET {{BloodBankManager_HostAddress}}/api/bloodexpiryalerts/statistics
+Accept: {{ContentType}}
+
+### 18. PUT - Discard Blood Unit
+PUT {{BloodBankManager_HostAddress}}/api/bloods/1/discard
+Content-Type: {{ContentType}}
+
+{
+  "reason": "Hết hạn"
+}
+
+### 19. POST - Check and Mark Expired Bloods
+POST {{BloodBankManager_HostAddress}}/api/bloods/check-expired
+Content-Type: {{ContentType}}
+
+### 20. POST - Refresh Alerts
+POST {{BloodBankManager_HostAddress}}/api/bloodexpiryalerts/refresh
+Content-Type: {{ContentType}}
+
+### 21. GET All Payments
+GET {{BloodBankManager_HostAddress}}/api/payments
+Accept: {{ContentType}}
+
+### 22. GET Payment by ID
+GET {{BloodBankManager_HostAddress}}/api/payments/1
+Accept: {{ContentType}}
+
+### 23. GET Payments by Patient
+GET {{BloodBankManager_HostAddress}}/api/payments/patient/1
+Accept: {{ContentType}}
+
+### 24. POST - Create Payment
+POST {{BloodBankManager_HostAddress}}/api/payments
+Content-Type: {{ContentType}}
+
+{
+  "patientId": 1,
+  "amount": 500000,
+  "paymentMethod": "Cash",
+  "description": "Thanh toán cho máu A+",
+  "status": "Completed"
+}
+
+### 25. PUT - Update Payment
+PUT {{BloodBankManager_HostAddress}}/api/payments/1
+Content-Type: {{ContentType}}
+
+{
+  "id": 1,
+  "patientId": 1,
+  "amount": 600000,
+  "paymentMethod": "Credit Card",
+  "description": "Thanh toán cập nhật",
+  "status": "Completed"
+}
+
+### 26. DELETE - Delete Payment
+DELETE {{BloodBankManager_HostAddress}}/api/payments/1
